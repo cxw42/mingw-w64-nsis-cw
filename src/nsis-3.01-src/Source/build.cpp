@@ -394,7 +394,9 @@ void CEXEBuild::initialize(const TCHAR *makensis_path)
   if (dir) nsis_dir = dir;
   else {
 #ifndef NSIS_CONFIG_CONST_DATA_PATH
-    nsis_dir = get_dir_name(get_executable_dir(makensis_path));
+    nsis_dir = get_dir_name(get_executable_dir(makensis_path))
+      + PLATFORM_PATH_SEPARATOR_STR + _TEXT("share")
+      + PLATFORM_PATH_SEPARATOR_STR + _TEXT("nsis");
 #else
     nsis_dir = _T(PREFIX_DATA);
 #endif
@@ -3555,7 +3557,7 @@ int CEXEBuild::initialize_default_plugins(bool newtargetarc)
 
   tstring searchPath = definedlist.find(_T("NSISDIR"));
   searchPath += PLATFORM_PATH_SEPARATOR_STR _T("Plugins") PLATFORM_PATH_SEPARATOR_STR;
-  searchPath += get_target_suffix();
+  searchPath += get_target_suffix(false);
 
   SCRIPT_MSG(_T("Processing default plugins: \"%") NPRIs PLATFORM_PATH_SEPARATOR_STR _T("*.dll\"\n"), searchPath.c_str());
   if (!m_pPlugins->Initialize(searchPath.c_str(), is_target_64bit(), !!display_script))
@@ -3841,21 +3843,32 @@ int CEXEBuild::set_compressor(const tstring& compressor, const bool solid) {
 
 CEXEBuild::TARGETTYPE CEXEBuild::get_target_type(const TCHAR*s) const
 {
+  tstring str = s;
+#if defined(__GNUC__)
+  if (s && !_tcsstr(s, _TEXT("-")))
+#if defined(__x86_64__) || defined(__LP64__)
+    str = _TEXT("amd64-") + str;
+#else
+    str = _TEXT("x86-") + str;
+#endif
+#endif
+
   for(int i = CEXEBuild::TARGETFIRST; i < CEXEBuild::TARGETCOUNT; ++i)
   {
     CEXEBuild::TARGETTYPE tt = (CEXEBuild::TARGETTYPE) i;
-    if (!_tcsicmp(get_target_suffix(tt, _T("")),s) && *s) return tt;
+    if (!_tcsicmp(get_target_suffix(tt, true, _T("")),str.c_str()) && *s) return tt;
+    if (!_tcsicmp(get_target_suffix(tt, false, _T("")),str.c_str()) && *s) return tt;
   }
   return TARGET_UNKNOWN;
 }
 
-const TCHAR* CEXEBuild::get_target_suffix(CEXEBuild::TARGETTYPE tt, const TCHAR*defval) const
+const TCHAR* CEXEBuild::get_target_suffix(CEXEBuild::TARGETTYPE tt, const bool include_arch, const TCHAR*defval) const
 {
   switch(tt)
   {
-  case TARGET_X86ANSI   : return _T("x86-ansi");
-  case TARGET_X86UNICODE: return _T("x86-unicode");
-  case TARGET_AMD64     : return _T("amd64-unicode");
+  case TARGET_X86ANSI   : return include_arch? _T("x86-ansi") : _T("ansi");
+  case TARGET_X86UNICODE: return include_arch? _T("x86-unicode") : _T("unicode");
+  case TARGET_AMD64     : return include_arch? _T("amd64-unicode") : _T("unicode");
   default: return defval;
   }
 }
@@ -3866,17 +3879,22 @@ void CEXEBuild::print_bad_targettype_parameter(const TCHAR*cmdname, const TCHAR*
   errstr += _T(": Target parameter must be one of: "), errstr += prefix;
   for(int comma = 0, i = CEXEBuild::TARGETFIRST; i < CEXEBuild::TARGETCOUNT; ++i)
   {
-    const TCHAR *ts = get_target_suffix((CEXEBuild::TARGETTYPE) i, 0);
+    // TODO: test this
+    const TCHAR *ts = get_target_suffix((CEXEBuild::TARGETTYPE) i, true, 0);
+    const TCHAR *ts2 = get_target_suffix((CEXEBuild::TARGETTYPE) i, false, 0);
     if (!ts) continue;
     if (comma++) errstr += _T(", "), errstr += prefix;
     errstr += ts;
+    if (!ts2) continue;
+    errstr += _T(", /");
+    errstr += ts2;
   }
   ERROR_MSG(_T("Error: %") NPRIs _T("\n"), errstr.c_str());
 }
 
 int CEXEBuild::load_stub()
 {
-  return update_exehead(stub_filename+_T("-")+get_target_suffix(), &m_exehead_original_size);
+  return update_exehead(stub_filename+_T("-")+get_target_suffix(false), &m_exehead_original_size);
 }
 
 int CEXEBuild::update_exehead(const tstring& file, size_t *size/*=NULL*/) {

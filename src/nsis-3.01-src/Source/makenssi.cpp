@@ -569,7 +569,8 @@ static inline int makensismain(int argc, TCHAR **argv)
         TCHAR* env_var = _tgetenv(_T("NSISCONFDIR"));
         if(env_var == NULL)
 #ifndef NSIS_CONFIG_CONST_DATA_PATH
-          main_conf = get_dir_name(get_executable_dir(argv[0]));
+          main_conf = get_dir_name(get_executable_dir(argv[0]))
+            + PLATFORM_PATH_SEPARATOR_STR + _TEXT("etc");
 #else
           main_conf = _T(PREFIX_CONF);
 #endif
@@ -655,7 +656,7 @@ static inline int makensismain(int argc, TCHAR **argv)
     _ftprintf(g_output,_T("\nProcessed "));
     if (files_processed) _ftprintf(g_output,_T("%d file%") NPRIs _T(", "),files_processed,files_processed==1?_T(""):_T("s"));
     if (cmds_processed) _ftprintf(g_output,_T("%d command line command%") NPRIs _T(", "),cmds_processed,cmds_processed==1?_T(""):_T("s"));
-    _ftprintf(g_output,_T("writing output (%") NPRIs _T("):\n"),build.get_target_suffix());
+    _ftprintf(g_output,_T("writing output (%") NPRIs _T("):\n"),build.get_target_suffix(true));
     fflush(g_output);
   }
 

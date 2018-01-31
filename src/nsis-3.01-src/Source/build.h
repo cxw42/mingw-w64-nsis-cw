@@ -129,8 +129,8 @@ class CEXEBuild {
     TARGETTYPE m_target_type;
     TARGETTYPE get_target_type(const TCHAR*s) const;
     bool m_previous_x86_unicode;
-    const TCHAR* get_target_suffix(CEXEBuild::TARGETTYPE tt, const TCHAR*defval = _T("?")) const;
-    const TCHAR* get_target_suffix() const { return get_target_suffix(m_target_type); }
+    const TCHAR* get_target_suffix(CEXEBuild::TARGETTYPE tt, const bool include_arch, const TCHAR*defval = _T("?")) const;
+    const TCHAR* get_target_suffix(const bool include_arch) const { return get_target_suffix(m_target_type, include_arch); }
     static bool is_targettype_64bit(TARGETTYPE tt) { return TARGET_AMD64 == tt; }
     bool is_target_64bit() const { return is_targettype_64bit(m_target_type); }
     void print_bad_targettype_parameter(const TCHAR*cmdname, const TCHAR*prefix = _T("")) const;

@@ -965,7 +965,10 @@ int RunChildProcessRedirected(LPCSTR cmd, bool ForceUTF8)
 {
   STARTUPINFO si = { sizeof(STARTUPINFO), };
   PROCESS_INFORMATION pi;
-  if (!CreateProcess(NULL, const_cast<LPSTR>(cmd), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+  LPSTR modifiable_cmd = strdup(cmd);
+  BOOL result = CreateProcess(NULL, modifiable_cmd, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+  free(modifiable_cmd);
+  if (!result)
     return GetLastError();
   WaitForSingleObject(pi.hProcess, INFINITE);
   GetExitCodeProcess(pi.hProcess, &si.cb);

@@ -42,7 +42,19 @@ src_ascpp = """
 	.end
 	#endif
 """
-conf = env.Configure()
+conf = env.Configure(log_file=r'/home/ChrisW/src/MINGW-packages/mingw-w64-nsis/call.s.log')
+#import pdb
+#pdb.set_trace()
+
+#env['AS'] = 'gcc'
+#env['ASFLAGS'] = Split("-x assembler-with-cpp -DSYSTEM_LOG_DEBUG -c")
+#env['ENV']['AS'] = 'gcc'
+#env['ENV']['ASFLAGS'] = Split("-x assembler-with-cpp -DSYSTEM_LOG_DEBUG -c")
+#env['ENV']['TEMP'] = '/tmp'
+#env['ENV']['TMP'] = '/tmp'
+#
+#print('AS',env['AS'],'ASFLAGS',env['ASFLAGS'])
+
 if conf.TryCompile('END', '.S'):
 	files += ['Source/'+filename+'.S']
 elif (not msvc) and conf.TryCompile(src_ascpp, '.S'):
@@ -50,6 +62,7 @@ elif (not msvc) and conf.TryCompile(src_ascpp, '.S'):
 elif (not msvc) and conf.TryCompile(src_ascpp, '.sx'):
 	files += ['Source/'+filename+'CPP.sx']
 else:
+	print 'here!'
 	print 'WARNING: System.dll: unable to find assembler for '+filename+'.S'
 conf.Finish()
 

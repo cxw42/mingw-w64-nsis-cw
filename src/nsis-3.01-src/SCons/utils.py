@@ -16,19 +16,6 @@ def AddZLib(env, platform, alias='install-utils'):
 	appropriate compiler and linker options to the environment
 	"""
 	zlib = 'z'
-	if platform == 'win32':
-		if 'ZLIB_W32' in env:
-			# Add include and library path of zlib for Win32
-			env.Append(CPPPATH = env['ZLIB_W32_INC'])
-			env.Append(LIBPATH = env['ZLIB_W32_LIB'])
-			zlib = ['zdll', 'z']
-			if 'ZLIB_W32_DLL' in env and env['ZLIB_W32_DLL']:
-				env.DistributeW32Bin(env['ZLIB_W32_DLL'], alias=alias)
-			if 'ZLIB_W32_NEW_DLL' in env and env['ZLIB_W32_NEW_DLL']:
-				env.DistributeW32Bin(env['ZLIB_W32_NEW_DLL'], alias=alias)
-		else:
-			print 'Please specify folder of zlib for Win32 via ZLIB_W32'
-			Exit(1)
 
 	# Avoid unnecessary configuring when cleaning targets
 	# and a clash when scons is run in parallel operation.
@@ -36,7 +23,7 @@ def AddZLib(env, platform, alias='install-utils'):
 		conf = env.Configure()
 		if not conf.CheckLibWithHeader(zlib, 'zlib.h', 'c'):
 			print 'zlib (%s) is missing!' % (platform)
-			Exit(1)
+			#Exit(1)
 
 		env = conf.Finish()
 

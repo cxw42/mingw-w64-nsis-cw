@@ -19,8 +19,13 @@ if GetOptionOrEnv('NSIS_SCONS_GNU_ENVPATHHACK'):
 ### cross compiling
 
 def cross_env(env):
+	print('cross_env called')
 	if env['PLATFORM'] != 'win32':
+		print('    invoking crossmingw')
 		env.Tool('crossmingw', toolpath = [Dir('../Tools').rdir()])
+	else:
+		print('    invoking mingw_w64')
+		env.Tool('mingw_w64')
 
 ### flags
 
@@ -44,6 +49,8 @@ defenv['SUBSYS_CON'] = '-Wl,--subsystem,console'
 defenv['SUBSYS_WIN'] = '-Wl,--subsystem,windows'
 defenv['MSVCRT_FLAG'] = ''
 defenv['STDCALL'] = '"__attribute__((__stdcall__))"'
+defenv['SHLIBPREFIX'] = ''
+defenv['PLATFORM'] = 'win32'
 
 # Don't allow mingw to link with LIBGCC*.DLL and LIBSTDC++-*.DLL
 if defenv['PLATFORM'] == 'win32':

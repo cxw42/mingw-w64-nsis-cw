@@ -3211,7 +3211,8 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         TCHAR* cmdstr=line.gettoken_str(1);
         int validparams=false;
         struct postbuild_cmd *newcmd, *prevcmd;
-        newcmd=(struct postbuild_cmd*) (new BYTE[FIELD_OFFSET(struct postbuild_cmd,cmd[_tcsclen(cmdstr)+1])]);
+        const size_t newcmd_size = offsetof(struct postbuild_cmd,cmd[0]) + ((_tcsclen(cmdstr) + 1) * sizeof(TCHAR));
+        newcmd=(struct postbuild_cmd*) new BYTE[newcmd_size];
         newcmd->next=NULL, _tcscpy(newcmd->cmd,cmdstr);
         newcmd->cmpop=line.gettoken_enum(2,_T("<\0>\0<>\0=\0ignore\0")), newcmd->cmpval=line.gettoken_int(3,&validparams);
         if (line.getnumtokens() == 1+1) newcmd->cmpop=4, validparams=true; // just a command, ignore the exit code
@@ -4806,7 +4807,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
             {
               pluginfullpath = definedlist.find(_T("NSISDIR"));
               pluginfullpath += tstring(PLATFORM_PATH_SEPARATOR_STR) + _T("Plugins");
-              pluginfullpath += tstring(PLATFORM_PATH_SEPARATOR_STR) + get_target_suffix();
+              pluginfullpath += tstring(PLATFORM_PATH_SEPARATOR_STR) + get_target_suffix(false);
               pluginfullpath += tstring(PLATFORM_PATH_SEPARATOR_STR) + t;
             }
             t = (TCHAR*) pluginfullpath.c_str();
