@@ -43,16 +43,19 @@ import SCons.Tool
 import SCons.Util
 
 # This is what we search for to find mingw:
-key_program = 'mingw32-gcc'
+#key_program = 'mingw32-gcc'
+key_program = 'gcc'
 
 def find(env):
     # First search in the SCons path
     path=env.WhereIs(key_program)
     if (path):
+        print("mingw.py found %s in SCons path at %s"%(key_program,path))
         return path
     # then the OS path:
     path=SCons.Util.WhereIs(key_program)
     if (path):
+        print("mingw.py found %s in OS path at %s"%(key_program,path))
         return path
 
     # If that doesn't work try default location for mingw
