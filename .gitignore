@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+# Archives
+*.zip
+*.gz
+*.bz2
+*.xz
+
+# Other
+*~
+~*
+*.bak
+*.swp
+*.log
+/*.log.*
