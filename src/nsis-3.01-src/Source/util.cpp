@@ -1,15 +1,15 @@
 /*
  * util.cpp
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  */
@@ -58,7 +58,7 @@ using namespace std;
 extern int g_display_errors;
 extern FILE *g_output, *g_errout;
 
-double my_wtof(const wchar_t *str) 
+double my_wtof(const wchar_t *str)
 {
   char buf[100];
   WideCharToMultiByte(0,0,str,-1,buf,100,0,0);
@@ -176,7 +176,7 @@ wchar_t *CharNextW(const wchar_t *s) {
 }
 
 char *CharNextExA(WORD codepage, const char *s, int flags) {
-  // blogs.msdn.com/b/michkap/archive/2007/04/19/2190207.aspx implies that 
+  // blogs.msdn.com/b/michkap/archive/2007/04/19/2190207.aspx implies that
   // CharNextExA uses IsDBCSLeadByteEx, should we do the same?
   const char* orglocct = NSISRT_setlocale_wincp(LC_CTYPE, codepage), *np;
   int len = mblen(s, strlen(s));
@@ -207,7 +207,7 @@ bool NSISRT_Initialize() // Init function for POSIX
 {
   iconvdescriptor id;
   g_nrt_iconv_narrowloc = const_cast<char*>(""); // Use "" and not "char", "char" is a GNU extension?
-  if (!id.Open("wchar_t", g_nrt_iconv_narrowloc)) 
+  if (!id.Open("wchar_t", g_nrt_iconv_narrowloc))
   {
     unsigned int cchmax = COUNTOF(g_nrt_iconv_narrowlocbuf);
     const char *tmp = "";
@@ -768,7 +768,7 @@ void RawTStrToASCII(const TCHAR*in,char*out,UINT maxcch)
 /*
  * ExpandoStrFmtVaList returns the number of characters written excluding
  * the \0 terminator or 0 on error.
- * realloc() is used on *ppMalloc if cchStack is not 
+ * realloc() is used on *ppMalloc if cchStack is not
  * large enough to hold the formatted string.
 */
 size_t ExpandoStrFmtVaList(wchar_t*Stack, size_t cchStack, wchar_t**ppMalloc, const wchar_t*FmtStr, va_list Args)
@@ -850,9 +850,9 @@ const TCHAR* GetFriendlySize(UINT64 n, unsigned int&fn, GETFRIENDLYSIZEFLAGS f)
 #ifdef _UNICODE
 int RunChildProcessRedirected(LPCWSTR cmdprefix, LPCWSTR cmdmain, bool ForceUTF8)
 {
-  // We have to deliver the requested output encoding to our host (if any) and the 
+  // We have to deliver the requested output encoding to our host (if any) and the
   // only way to do that is to convert the pipe content from what we hope is UTF-8.
-  // The reason we need a pipe in the first place is because we cannot trust the 
+  // The reason we need a pipe in the first place is because we cannot trust the
   // child to call GetConsoleOutputCP(), and even if we could, UTF-16 is not valid there.
   UINT cp = CP_UTF8, mbtwcf = MB_ERR_INVALID_CHARS, oemcp = GetOEMCP();
   errno = ENOMEM;
@@ -1308,7 +1308,7 @@ typedef struct _VXD_VERSION_RESOURCE {
 } VXD_VERSION_RESOURCE, *PVXD_VERSION_RESOURCE;
 #pragma pack( pop, pre_vxd_ver )
 
-static BOOL GetVxdVersion( LPCTSTR szFile, LPDWORD lpdwLen, LPVOID lpData ) 
+static BOOL GetVxdVersion( LPCTSTR szFile, LPDWORD lpdwLen, LPVOID lpData )
 {
 
   HANDLE hFile        = NULL;
@@ -1357,7 +1357,7 @@ static BOOL GetVxdVersion( LPCTSTR szFile, LPDWORD lpdwLen, LPVOID lpData )
   pDosExeHdr = (PIMAGE_DOS_HEADER) pView;
 
   // Check to make sure the file has a DOS EXE header.
-  if ( pDosExeHdr->e_magic != IMAGE_DOS_SIGNATURE ) 
+  if ( pDosExeHdr->e_magic != IMAGE_DOS_SIGNATURE )
   {
     if ( pView ) UnmapViewOfFile( pView );
     if ( hFileMapping ) CloseHandle( hFileMapping );
@@ -1370,7 +1370,7 @@ static BOOL GetVxdVersion( LPCTSTR szFile, LPDWORD lpdwLen, LPVOID lpData )
   pNtExeHdr = (PIMAGE_NT_HEADERS) ( (ULONG_PTR) pView + pDosExeHdr->e_lfanew );
 
   // Check to make sure the file is a VxD.
-  if ( (DWORD) pNtExeHdr->Signature != IMAGE_VXD_SIGNATURE ) 
+  if ( (DWORD) pNtExeHdr->Signature != IMAGE_VXD_SIGNATURE )
   {
     if ( pView ) UnmapViewOfFile( pView );
     if ( hFileMapping ) CloseHandle( hFileMapping );
@@ -1420,18 +1420,18 @@ static BOOL GetVxdVersion( LPCTSTR szFile, LPDWORD lpdwLen, LPVOID lpData )
   return TRUE;
 }
 
-static DWORD GetVxdVersionInfoSize( LPCTSTR szFile ) 
+static DWORD GetVxdVersionInfoSize( LPCTSTR szFile )
 {
   DWORD dwResult = 0;
 
   // Call GetVxdVersion() with NULL for the pointer to the buffer.
-  if ( !GetVxdVersion( szFile, &dwResult, NULL ) ) 
+  if ( !GetVxdVersion( szFile, &dwResult, NULL ) )
   {
     DWORD dwError = GetLastError();
 
     // GetVxdVersion() will fail with ERROR_INSUFFICIENT_BUFFER and
     // the required buffer size will be returned in dwResult.
-    if ( dwError == ERROR_INSUFFICIENT_BUFFER ) 
+    if ( dwError == ERROR_INSUFFICIENT_BUFFER )
     {
       SetLastError( 0 );
       return dwResult;
@@ -1442,7 +1442,7 @@ static DWORD GetVxdVersionInfoSize( LPCTSTR szFile )
   return 0;
 }
 
-static BOOL GetVxdVersionInfo( LPCTSTR szFile, DWORD dwLen, LPVOID lpData ) 
+static BOOL GetVxdVersionInfo( LPCTSTR szFile, DWORD dwLen, LPVOID lpData )
 {
   return GetVxdVersion( szFile, &dwLen, lpData );
 }

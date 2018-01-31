@@ -1,10 +1,10 @@
 /*
  * tchar.h
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -28,7 +28,7 @@
 typedef unsigned short TCHAR, _TUCHAR;
 #else
 // MinGW typedefs TCHAR and _TCHAR inside #ifndef _TCHAR_DEFINED
-// MSVC typedefs TCHAR inside #ifndef _TCHAR_DEFINED 
+// MSVC typedefs TCHAR inside #ifndef _TCHAR_DEFINED
 // and _TCHAR and _T*CHAR inside #ifndef __TCHAR_DEFINED.
 // We don't want to break MSVCs _TSCHAR and _TXCHAR so we don't protect our typedef...
 #if defined(_WIN32) && ((_MSC_VER>1 && (_MSC_VER<1400 || !defined(_NATIVE_WCHAR_T_DEFINED))) || !defined(_WCHAR_T_DEFINED))

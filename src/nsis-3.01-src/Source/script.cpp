@@ -1,15 +1,15 @@
 /*
  * script.cpp
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -383,7 +383,7 @@ int CEXEBuild::doParse(const TCHAR *str)
   }
 
   // parse before checking if the line should be ignored, so block comments won't be missed
-  
+
   // escaped quotes should be ignored for compile time commands that set defines
   // because defines can be inserted in commands at a later stage
   bool ignore_escaping = (!_tcsnicmp((TCHAR*)m_linebuild.get(),_T("!define"),7) || !_tcsncicmp((TCHAR*)m_linebuild.get(),_T("!insertmacro"),12));
@@ -495,7 +495,7 @@ parse_again:
       ERROR_MSG(_T("!else: no if block open (!if[macro][n][def])\n"));
       return PS_ERROR;
     }
-    
+
     if (cur_ifblock->elseused)
     {
       ERROR_MSG(_T("!else: else already used in current if block\n"));
@@ -554,7 +554,7 @@ parse_again:
           TCHAR *fc = my_convert(line.gettoken_str(2));
           tstring dir = get_dir_name(fc), spec = get_file_name(fc);
           my_convert_free(fc);
-          if (dir == spec) dir = _T("."); 
+          if (dir == spec) dir = _T(".");
 
           boost::scoped_ptr<dir_reader> dr( new_dir_reader() );
           dr->hack_simpleexcluded().erase(_T("."));
@@ -618,11 +618,11 @@ parse_again:
         }
       }
       else PRINTHELPEX(cmdnam)
-        
+
       if (logicneg) istrue = !istrue;
     }
     else {
-  
+
       // pure left to right precedence. Not too powerful, but useful.
       for (int p = 1; p < line.getnumtokens(); p++)
       {
@@ -635,7 +635,7 @@ parse_again:
             new_s=MacroExists(line.gettoken_str(p));
           if (tkid == TOK_P_IFNDEF || tkid == TOK_P_IFMACRONDEF)
             new_s=!new_s;
-  
+
           if (mod == 0) istrue = istrue || new_s;
           else istrue = istrue && new_s;
         }
@@ -914,7 +914,7 @@ int CEXEBuild::includeScript(const TCHAR *f, NStreamEncoding&enc)
 {
   NIStream incstrm;
   const bool openok = incstrm.OpenFileForReading(f,enc);
-  if (NStreamEncoding::AUTO == enc.GetCodepage() && // !include defaults to UTF-8 after "Unicode true" 
+  if (NStreamEncoding::AUTO == enc.GetCodepage() && // !include defaults to UTF-8 after "Unicode true"
     build_unicode && !enc.IsUnicodeCodepage(enc.GetPlatformDefaultCodepage()) &&
     enc.GetPlatformDefaultCodepage() == incstrm.StreamEncoding().GetCodepage()
   ) incstrm.StreamEncoding().SetCodepage(NStreamEncoding::UTF8);
@@ -992,7 +992,7 @@ TCHAR* CEXEBuild::GetMacro(const TCHAR *macroname, TCHAR**macroend /*= 0*/)
       if (macroend) *macroend = ++t;
       return mbeg;
     }
-    
+
     if (t-mbufbeg >= m_macros.getlen()-1) break;
   }
   return 0;
@@ -1001,7 +1001,7 @@ TCHAR* CEXEBuild::GetMacro(const TCHAR *macroname, TCHAR**macroend /*= 0*/)
 int CEXEBuild::LoadLicenseFile(const TCHAR *file, TCHAR** pdata, const TCHAR *cmdname, WORD AnsiCP) // caller must free *pdata, even on error result
 {
   NIStream strm;
-  if (!strm.OpenFileForReading(file)) 
+  if (!strm.OpenFileForReading(file))
   {
     ERROR_MSG(_T("%") NPRIs _T(": open failed \"%") NPRIs _T("\"\n"),cmdname,file);
     print_help(cmdname);
@@ -1488,7 +1488,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
     case TOK_P_GETDLLVERSION:
     {
       const TCHAR *cmdname = _T("!getdllversion");
-      DWORD low, high; 
+      DWORD low, high;
       if (!GetDLLVersion(line.gettoken_str(1), high, low))
       {
         ERROR_MSG(_T("%") NPRIs _T(": error reading version info from \"%") NPRIs _T("\"\n"), cmdname, line.gettoken_str(1));
@@ -2828,7 +2828,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         const TCHAR*facename = line.gettoken_str(2);
         table->nlf.m_szFont = _tcsdup(facename);
         table->nlf.m_iFontSize = line.gettoken_int(3);
-        
+
         if (table->nlf.m_szFont)
           SCRIPT_MSG(_T("SetFont: lang=%d \"%") NPRIs _T("\" %") NPRIs _T("\n"), lang_id, facename, line.gettoken_str(3));
         else
@@ -2868,7 +2868,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         SCRIPT_MSG(_T("PEDllCharacteristics: 0x%.4x -> 0x%.4x\n"), org, PEDllCharacteristics);
       }
       return PS_OK;
-  
+
     case TOK_PESUBSYSVER:
       {
         unsigned int mj, mi;
@@ -3098,7 +3098,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
 
         value=datebuf;
       } else if (!_tcsicmp(define,_T("/file")) || !_tcsicmp(define,_T("/file_noerr"))) {
-        
+
         if (line.getnumtokens()!=4) PRINTHELPEX(cmdnam)
         const TCHAR *const filename=line.gettoken_str(3), *const swit=define;
         NIStream filestrm;
@@ -3438,7 +3438,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
             if (!str[0] && !tmpstr.getlen()) break; // reached eof
 
             TCHAR *thisline=str;
-            if (tmpstr.getlen()) 
+            if (tmpstr.getlen())
             {
               tmpstr.add(_T("\0"),sizeof(TCHAR));
               thisline=(TCHAR *)tmpstr.get();
@@ -3507,7 +3507,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         GrowBuf valout;
         while (*src)
         {
-          if (ignoreCase ? _tcsnicmp(src,search,searchlen) : _tcsncmp(src,search,searchlen)) 
+          if (ignoreCase ? _tcsnicmp(src,search,searchlen) : _tcsncmp(src,search,searchlen))
             valout.add(src++,sizeof(TCHAR));
           else
           {
@@ -3516,7 +3516,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
           }
         }
         valout.add(_T(""),sizeof(TCHAR));
-       
+
         definedlist.del(define); // allow changing variables since we'll often use this in series
         if (definedlist.add(define,(TCHAR*)valout.get()))
         {
@@ -6053,11 +6053,11 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
       // Probably not required, but this code retains the <= 2.46 behaviour and
       // does not fail on bad product version number here, it "validates" in CEXEBuild::AddVersionInfo()
       //
-      // It is ok for us to use rVersionInfo as storage since VIProductVersion is required by VIAddVersionKey 
+      // It is ok for us to use rVersionInfo as storage since VIProductVersion is required by VIAddVersionKey
       {
         const bool settingFileVer = TOK_VI_SETFILEVERSION == which_token;
         const unsigned int reuseFlag = settingFileVer ? 4 : 1;
-        if (reuseFlag & version_fixedflags) 
+        if (reuseFlag & version_fixedflags)
         {
           ERROR_MSG(_T("Error: %") NPRIs _T(" already defined!\n"), line.gettoken_str(0));
           return PS_ERROR;
@@ -6067,7 +6067,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         const bool validInput = _stscanf(line.gettoken_str(1), _T("%d.%d.%d.%d"), &imm, &iml, &ilm, &ill) == 4;
         if (settingFileVer)
         {
-          if (!validInput) 
+          if (!validInput)
           {
             ERROR_MSG(_T("Error: invalid %") NPRIs _T(" format, should be X.X.X.X\n"),line.gettoken_str(0));
             return PS_ERROR;
@@ -6076,7 +6076,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         }
         else
         {
-          if (validInput) 
+          if (validInput)
           {
             version_fixedflags |= 2;
             rVersionInfo.SetProductVersion(MAKELONG(iml, imm),MAKELONG(ill, ilm));
@@ -6159,7 +6159,7 @@ int CEXEBuild::doCommand(int which_token, LineParser &line)
         build_overwrite=1; // off
         const int old_build_datesave=build_datesave;
         build_datesave=0; // off
-        
+
         // Jim Park: While the code looks as if the same DLL is added multiple
         // times for each command in the DLL, this is actually not the case
         // because of CEXEBuild::datablock_optimize() that tries to discover

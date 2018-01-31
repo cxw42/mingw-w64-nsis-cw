@@ -12,8 +12,8 @@
 //
 // Provides TSTRING support.
 
-/* 
-   Unicode support by Jim Park -- 07/23/2007 
+/*
+   Unicode support by Jim Park -- 07/23/2007
 */
 
 #ifndef NSIS_TSTRING___H__

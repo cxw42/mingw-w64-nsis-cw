@@ -1,15 +1,15 @@
 /*
  * strlist.cpp: Implementation of the StringList class.
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -155,9 +155,9 @@ unsigned int ExeHeadStringList::find(const void *ptr, unsigned int cchF, WORD co
       size_t cbOfs = cb - cbF;
       if (byte_rev_match(p + cbOfs,find,cbF)) { retval = (pos + cbOfs); break; }
     }
-    if (ppBufMB) 
+    if (ppBufMB)
       *ppBufMB = bufMB;
-    else 
+    else
       delete[] bufMB;
   }
   // -1 is a valid magic return value but we must avoid the truncation check in truncate_cast
@@ -249,7 +249,7 @@ void StringList::delbypos(int pos)
   TCHAR *s=(TCHAR*) m_gr.get();
   int len=(int)_tcslen(s+pos)+1;
 
-  if (pos+len < getcount()) 
+  if (pos+len < getcount())
   {
     // Move everything after the string position to the current position.
     memcpy(s+pos,s+pos+len, (getcount()-pos+len)*sizeof(TCHAR));
@@ -290,7 +290,7 @@ int StringList::getnum() const
 // DefineList
 // ==========
 
-/** 
+/**
  * Since the SortedStringList base class handles the memory for .name values,
  * this destructor handles all the .value values in struct define.
  */
@@ -403,4 +403,3 @@ int FastStringList::getnum() const
 {
   return m_gr.getlen()/sizeof(struct string_t);
 }
-

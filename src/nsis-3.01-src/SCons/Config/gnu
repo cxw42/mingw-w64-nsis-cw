@@ -11,7 +11,7 @@ if GetOptionOrEnv('NSIS_SCONS_GNU_ENVPATHHACK'):
 	import os
 	defenv['ENV']['PATH'] = os.getenv('PATH') # Major hack!
 	import_env = ['SystemDrive', 'SystemRoot', 'TEMP', 'TMP', 'PATHEXT']
-	for var in import_env: 
+	for var in import_env:
 		if var in os.environ:
 			defenv['ENV'][var] = os.environ.get(var, '')
 	#print defenv.Dump()
@@ -45,7 +45,7 @@ defenv['SUBSYS_WIN'] = '-Wl,--subsystem,windows'
 defenv['MSVCRT_FLAG'] = ''
 defenv['STDCALL'] = '"__attribute__((__stdcall__))"'
 
-# Don't allow mingw to link with LIBGCC*.DLL and LIBSTDC++-*.DLL 
+# Don't allow mingw to link with LIBGCC*.DLL and LIBSTDC++-*.DLL
 if defenv['PLATFORM'] == 'win32':
 	defenv.Append(LINKFLAGS = ['-static-libgcc'])
 	defenv.Append(LINKFLAGS = ['-static-libstdc++'])

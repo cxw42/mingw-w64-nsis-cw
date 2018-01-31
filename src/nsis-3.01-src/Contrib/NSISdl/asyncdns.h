@@ -7,9 +7,9 @@
 **
 ** Usage:
 **   1. Create JNL_AsyncDNS object, optionally with the number of cache entries.
-**   2. call resolve() to resolve a hostname into an address. The return value of 
+**   2. call resolve() to resolve a hostname into an address. The return value of
 **      resolve is 0 on success (host successfully resolved), 1 on wait (meaning
-**      try calling resolve() with the same hostname in a few hundred milliseconds 
+**      try calling resolve() with the same hostname in a few hundred milliseconds
 **      or so), or -1 on error (i.e. the host can't resolve).
 **   4. enjoy.
 **

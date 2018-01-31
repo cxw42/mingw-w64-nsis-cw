@@ -1,15 +1,15 @@
 /*
  * tokens.h
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -20,7 +20,7 @@
 #define _TOKENS_H_
 
 // the order of these two lists no longer needs to match. -J
-enum 
+enum
 {
   // header setting tokens
   TOK_NAME,
@@ -98,12 +98,12 @@ enum
   TOK_SETCOMPRESSORDICTSIZE,
   TOK_SETCOMPRESSIONLEVEL,
   TOK_FILEBUFSIZE,
-  
+
   // system "preprocessor"ish tokens
   TOK_P_IF,
   TOK_P_IFDEF,
   TOK_P_IFNDEF,
-  TOK_P_ELSE,  
+  TOK_P_ELSE,
   TOK_P_ENDIF,
   TOK_P_DEFINE,
   TOK_P_UNDEF,

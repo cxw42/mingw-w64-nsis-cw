@@ -12,7 +12,7 @@ def AddAvailableLibs(env, libs):
 
 def AddZLib(env, platform, alias='install-utils'):
 	"""
-	Checks for platform specific zlib and adds the 
+	Checks for platform specific zlib and adds the
 	appropriate compiler and linker options to the environment
 	"""
 	zlib = 'z'
@@ -30,7 +30,7 @@ def AddZLib(env, platform, alias='install-utils'):
 			print 'Please specify folder of zlib for Win32 via ZLIB_W32'
 			Exit(1)
 
-	# Avoid unnecessary configuring when cleaning targets 
+	# Avoid unnecessary configuring when cleaning targets
 	# and a clash when scons is run in parallel operation.
 	if not env.GetOption('clean'):
 		conf = env.Configure()

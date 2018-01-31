@@ -182,7 +182,7 @@ void RegFile(TCHAR cmd, TCHAR *file, int x64)
 
       CloseHandle(pi.hProcess);
     }
-    
+
     if (x64)
     {
       SafeWow64EnableWow64FsRedirection(TRUE);
@@ -361,7 +361,7 @@ void RenameViaWininit(const TCHAR* prevName, const TCHAR* newName)
         GlobalFree(pszWinInit);
       }
     }
-    
+
     CloseHandle(hfile);
   }
 }
@@ -369,7 +369,7 @@ void RenameViaWininit(const TCHAR* prevName, const TCHAR* newName)
 
 BOOL DeleteFileOnReboot(TCHAR *pszFile)
 {
-  BOOL fOk = 
+  BOOL fOk =
     MoveFileEx(pszFile, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
 #ifndef _WIN64
   if (!fOk)

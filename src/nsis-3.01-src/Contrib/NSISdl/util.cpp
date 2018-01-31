@@ -62,9 +62,9 @@ void myitoa64(__int64 i, char *buffer)
         i = -i;
     }
     if (i == 0) *(buffer++) = '0';
-    else 
+    else
     {
-        while (i > 0) 
+        while (i > 0)
         {
             *(b++) = '0' + ((char) (i%10));
             i /= 10;

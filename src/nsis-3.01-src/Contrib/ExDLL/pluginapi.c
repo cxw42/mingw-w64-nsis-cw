@@ -65,7 +65,7 @@ LPTSTR NSISCALL getuservariable(const int varnum)
 
 void NSISCALL setuservariable(const int varnum, LPCTSTR var)
 {
-  if (var && isvalidnsisvarindex(varnum)) 
+  if (var && isvalidnsisvarindex(varnum))
     lstrcpy(g_variables + varnum*g_stringsize, var);
 }
 
@@ -273,7 +273,7 @@ int NSISCALL myatoi_or(LPCTSTR s)
   }
 
   // Support for simple ORed expressions
-  if (*s == _T('|')) 
+  if (*s == _T('|'))
   {
       v |= myatoi_or(s+1);
   }

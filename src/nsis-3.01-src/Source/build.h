@@ -1,15 +1,15 @@
 /*
  * build.h
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -142,7 +142,7 @@ class CEXEBuild {
     // it is as if they are concatenated)
     int process_script(NIStream&Strm, const TCHAR *filename);
     int process_oneline(const TCHAR *line, const TCHAR *curfilename, int lineptr);
-    
+
     // you only get to call write_output once, so use it wisely.
     int write_output(void);
 
@@ -219,11 +219,11 @@ class CEXEBuild {
     int doCommand(int which_token, LineParser &line);
     TCHAR m_templinebuf[MAX_LINELENGTH]; // Buffer used by parseScript() & doCommand(), not recursion safe!
 
-    int do_add_file(const TCHAR *lgss, int attrib, int recurse, int *total_files, const TCHAR 
-      *name_override=0, int generatecode=1, int *data_handle=0, 
-      const std::set<tstring>& excluded=std::set<tstring>(), 
+    int do_add_file(const TCHAR *lgss, int attrib, int recurse, int *total_files, const TCHAR
+      *name_override=0, int generatecode=1, int *data_handle=0,
+      const std::set<tstring>& excluded=std::set<tstring>(),
       const tstring& basedir=tstring(_T("")), bool dir_created=false);
-    int add_file(const tstring& dir, const tstring& file, int attrib, const TCHAR 
+    int add_file(const tstring& dir, const tstring& file, int attrib, const TCHAR
       *name_override, int generatecode, int *data_handle);
     int do_add_file_create_dir(const tstring& local_dir, const tstring& dir, int attrib=0);
 
@@ -339,8 +339,8 @@ class CEXEBuild {
       * out parameter.  It will look for a LanguageTable to get the values.
       * If not found, then it will set the codepage to English for ANSI
       * or Unicode for Unicode version of NSIS.  The language name is looked
-      * up via the LanguageTable if it exists, otherwise, it returns "???" except 
-      * a hardcoded check for 1033 (english). It really should fall back to 
+      * up via the LanguageTable if it exists, otherwise, it returns "???" except
+      * a hardcoded check for 1033 (english). It really should fall back to
       * calling GetLocaleInfo() with the LANGID to get the string.
       *
       * This function is not thread-safe!  For a thread-safe version, the
@@ -360,7 +360,7 @@ class CEXEBuild {
      * A LangString is a string variable that varies in value depending on what
      * language is being used.  This function sets the string value for the
      * variable 'name' for a given language ID.
-     * 
+     *
      * @return If the language id, the variable name or string is invalid, it will
      * return a PS_ERROR.  If this function call is overwriting a set user string,
      * this will return a PS_WARNING.

@@ -127,7 +127,7 @@ BOOL WideConvertIfASCII(const char* ansiStr, int strLen, WCHAR* wideBuf, int cnt
 
 void ExecScript(int log) {
   TCHAR szRet[128] = _T("");
-  TCHAR meDLLPath[MAX_PATH];    
+  TCHAR meDLLPath[MAX_PATH];
   TCHAR *executor;
   TCHAR *g_exec;
   TCHAR *pExec;
@@ -175,7 +175,7 @@ void ExecScript(int log) {
       {
         pNTHeaders = (PIMAGE_NT_HEADERS)(pMapView + ((PIMAGE_DOS_HEADER)pMapView)->e_lfanew);
         // Turning the copied DLL into a stripped down executable.
-        pNTHeaders->FileHeader.Characteristics = IMAGE_FILE_32BIT_MACHINE | IMAGE_FILE_LOCAL_SYMS_STRIPPED | 
+        pNTHeaders->FileHeader.Characteristics = IMAGE_FILE_32BIT_MACHINE | IMAGE_FILE_LOCAL_SYMS_STRIPPED |
           IMAGE_FILE_LINE_NUMS_STRIPPED | IMAGE_FILE_EXECUTABLE_IMAGE;
         // Windows character-mode user interface (CUI) subsystem.
         pNTHeaders->OptionalHeader.Subsystem = IMAGE_SUBSYSTEM_WINDOWS_CUI;
@@ -206,7 +206,7 @@ void ExecScript(int log) {
   bOEM = FALSE;  // default is no OEM->ANSI conversion
 
   g_hwndList = NULL;
-  
+
   // g_hwndParent = the caller, usually NSIS installer.
   if (g_hwndParent) // The window class name for dialog boxes is "#32770"
     g_hwndList = FindWindowEx(FindWindowEx(g_hwndParent,NULL,_T("#32770"),NULL),NULL,_T("SysListView32"),NULL);
@@ -229,7 +229,7 @@ params:
     goto params;
   }
 
-  if (!pExec[0]) 
+  if (!pExec[0])
   {
     pushstring(_T("error"));
     if (pExec-2 >= g_exec)
@@ -240,7 +240,7 @@ params:
   }
 
   // Got all the params off the stack.
-  
+
   {
     STARTUPINFO si={sizeof(si),};
     SECURITY_ATTRIBUTES sa={sizeof(sa),};
@@ -349,7 +349,7 @@ params:
                 *p = _T(' ');
               }
             }
-            
+
             p = szUnusedBuf; // get the old left overs
             for (p2 = p; *p2;) {
               if (*p2 == _T('\r')) {
@@ -365,7 +365,7 @@ params:
               }
               p2 = CharNext(p2);
             }
-            
+
             // If data was taken out from the unused buffer, move p contents to the start of szUnusedBuf
             if (p != szUnusedBuf) {
               TCHAR *p2 = szUnusedBuf;
@@ -490,7 +490,7 @@ int WINAPI AsExeWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
   TCHAR command_line[1024]; //BUGBUG
   TCHAR seekchar=_T(' ');
   TCHAR *cmdline;
-  
+
   si.cb = sizeof(si);
   // Make child process use this app's standard files. Not needed because the handles
   // we created when executing this process were inheritable.
@@ -499,7 +499,7 @@ int WINAPI AsExeWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
   //si.hStdOutput = GetStdHandle (STD_OUTPUT_HANDLE);
   //si.hStdError  = GetStdHandle (STD_ERROR_HANDLE);
   lstrcpyn(command_line, GetCommandLine(), 1024);
-  
+
   cmdline = command_line;
   if (*cmdline == _T('\"')) seekchar = *cmdline++;
 

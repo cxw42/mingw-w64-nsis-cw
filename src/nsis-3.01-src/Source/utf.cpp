@@ -1,15 +1,15 @@
 /*
  * utf.cpp
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 2011-2016 Anders Kjersem
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -279,7 +279,7 @@ UINT DetectUTFBOM(FILE*strm)
   /*\
   Tries to detect a BOM at the current position in a stream.
   If a BOM is found it is eaten.
-  NOTE: ungetc is only guaranteed to support 1 pushback, 
+  NOTE: ungetc is only guaranteed to support 1 pushback,
   lets hope no MBCS file starts with parts of a BOM.
   \*/
   const int b1 = fgetc(strm);
@@ -363,7 +363,7 @@ void NStreamEncoding::GetCPDisplayName(WORD CP, TCHAR*Buf)
   case UTF32LE: p = _T("UTF32LE"); break;
   case UTF32BE: p = _T("UTF32BE"); break;
   case UTF8: p = _T("UTF8"); break;
-  default: 
+  default:
     _stprintf(mybuf,_T("CP%u"),CP);
     if (CP >= NStreamEncoding::CPCOUNT) p = _T("?");
   }
@@ -457,8 +457,8 @@ tstring NStreamLineReader::GetErrorMessage(UINT Error, const TCHAR*Filename, UIN
 UINT NStreamLineReader::ReadLine(wchar_t*Buffer, UINT cchBuf)
 {
   /*\
-  Reads from the associated stream until it finds a new-line or 
-  the read fails (I/O error or EOF). It fails with ERR_BUFFEROVERFLOW if 
+  Reads from the associated stream until it finds a new-line or
+  the read fails (I/O error or EOF). It fails with ERR_BUFFEROVERFLOW if
   cchBuf-1 wchar_t's are read without finding the end of the line.
   Buffer MUST be a valid pointer, it will be \0 terminated as long as cchBuf > 0.
   \*/
@@ -493,7 +493,7 @@ l_restart:
 #endif
       {
         if (!UTF8_GetTrailCount(chU8[0], cb)) goto l_badutf;
-        for(BYTE moreU8 = 0; moreU8 < cb;) 
+        for(BYTE moreU8 = 0; moreU8 < cb;)
         {
           BYTE b;
           if (!strm.ReadOctet(&b)) goto l_ioerror;
@@ -557,7 +557,7 @@ l_restart:
   {
     const UINT cp = StreamEncoding().GetCodepage();
     UINT mbtowcflags = (cp < 50220 && cp != 42) ? MB_ERR_INVALID_CHARS : 0;
-    for(;;) 
+    for(;;)
     {
       BYTE bufMB[2];
       BYTE mb = 0;

@@ -195,7 +195,7 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE _hModule, DWORD  ul_reason_for_call, 
 
 int MulDiv64(int nNumber, __int64 nNumerator, __int64 nDenominator)
 {
-    // ok, a complete implementation would handle negatives too, 
+    // ok, a complete implementation would handle negatives too,
     // but this method is probably not generally useful.
     while (nNumerator > INT32_MAX || nDenominator > INT32_MAX)
     {

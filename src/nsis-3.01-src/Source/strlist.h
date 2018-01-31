@@ -1,15 +1,15 @@
 /*
  * strlist.h: Implementation of the StringList class.
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -61,7 +61,7 @@ public:
    * Search the StringList for a string.  If the string already exists in the
    * list then it returns the index of the found string.  Returns -1 on
    * failure.
-   * 
+   *
    * @param str String to search for.
    *
    * @param case_sensitive If 0, search for whole string case insensitively.If
@@ -156,7 +156,7 @@ protected:
 
 /**
  * This class maintains a list of T types in a GrowBuf sorted by T.name which
- * is assumed to be a string (TCHAR*).  So it's really sort of a 
+ * is assumed to be a string (TCHAR*).  So it's really sort of a
  * map<TCHAR*, X> where X is whatever else is defined in T.  But T must define
  * a TCHAR* name.
  */
@@ -291,7 +291,7 @@ class SortedStringList
 
 /**
  * This class maintains a list of T types in a GrowBuf sorted by T.name which
- * is assumed to be an index into m_strings.  So it's really sort of a 
+ * is assumed to be an index into m_strings.  So it's really sort of a
  * map<TCHAR*, X> where X is whatever else is defined in T.  But T must define
  * a int name.
  *
@@ -345,7 +345,7 @@ class SortedStringListND // no delete - can be placed in GrowBuf
    /**
     * This function looks for the string str, in T.name in the buffer m_gr.
     * If it finds it, it returns the position found.  Otherwise, it returns
-    * -1.  
+    * -1.
     *
     * This behavior changes when returnbestpos == 1.  In this case,
     * it will do the reverse.  It will return -1 when it is found, noting
@@ -465,13 +465,13 @@ class DefineList : public SortedStringList<struct define>
 
     /**
      * Add a name-value pair, case insensitively.
-     * 
+     *
      * @param name The name of the variable or key to search by.  In a
      * std::map, it would be the .first of the pair.
-     * 
+     *
      * @param value The value to store.  In a std::map, it would be the.second
      * of the pair.
-     * 
+     *
      * @return Returns 0 if successful, 1 if already exists.  Errors cause
      * general program exit with error logging.
      */
@@ -484,7 +484,7 @@ class DefineList : public SortedStringList<struct define>
      * to the name key.
      *
      * @param name The key to search with.
-     * 
+     *
      * @return The TCHAR* to the value portion of the define struct.  If not
      * found, returns NULL.
      */
@@ -538,7 +538,7 @@ class FastStringList : public SortedStringListND<struct string_t>
   private: // don't copy instances
     FastStringList(const FastStringList&);
     void operator=(const FastStringList&);
-    
+
   public:
     /* Empty constructor */
     FastStringList() {} // VC6 complains otherwise

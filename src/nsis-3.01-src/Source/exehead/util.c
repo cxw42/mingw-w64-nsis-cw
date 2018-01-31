@@ -1,15 +1,15 @@
 /*
  * util.c
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -131,7 +131,7 @@ int NSISCALL my_MessageBox(const TCHAR *text, UINT type) {
     0,
     0
   };
-  
+
 #ifdef NSIS_CONFIG_SILENT_SUPPORT
   // default for silent installers
   if (g_exec_flags.silent && type >> 21)
@@ -146,14 +146,14 @@ int NSISCALL my_MessageBox(const TCHAR *text, UINT type) {
   mbp.lpszText = text;
   mbp.lpszCaption = g_caption;
   mbp.dwStyle = _type;
-  
+
   return MessageBoxIndirect(&mbp);
 }
 
-BOOL NSISCALL delete_with_ro_attr_handling(LPCTSTR fileordir,int flags) 
+BOOL NSISCALL delete_with_ro_attr_handling(LPCTSTR fileordir,int flags)
 {
   const DWORD attr=remove_ro_attr(fileordir);
-  if (attr != INVALID_FILE_ATTRIBUTES) 
+  if (attr != INVALID_FILE_ATTRIBUTES)
   {
     if (flags & DEL_DIR)
     {
@@ -164,7 +164,7 @@ BOOL NSISCALL delete_with_ro_attr_handling(LPCTSTR fileordir,int flags)
       if (DeleteFile(fileordir)) return TRUE;
     }
 
-    // Not sure if wininit.ini and MoveFileEx handle RO attr in the same 
+    // Not sure if wininit.ini and MoveFileEx handle RO attr in the same
     // way so we just play it safe
     if (!(flags & DEL_REBOOT)) SetFileAttributes(fileordir,attr);
   }
@@ -235,7 +235,7 @@ void NSISCALL myDelete(TCHAR *buf, int flags)
           else
           {
             log_printf2(_T("Delete: DeleteFile(\"%s\")"),buf);
-            
+
             if (!delete_with_ro_attr_handling(buf,rebootflag))
             {
 #ifdef NSIS_SUPPORT_MOVEONREBOOT
@@ -611,7 +611,7 @@ void RenameViaWininit(const TCHAR* prevName, const TCHAR* newName)
         GlobalFree(pszWinInit);
       }
     }
-    
+
     CloseHandle(hfile);
   }
 }
@@ -664,7 +664,7 @@ void NSISCALL myRegGetStr(HKEY root, const TCHAR *sub, const TCHAR *name, TCHAR 
 void NSISCALL iptrtostr(TCHAR *s, INT_PTR d)
 {
 #ifdef _WIN64
-  static const TCHAR c[] = _T("%Id"); 
+  static const TCHAR c[] = _T("%Id");
 #else
   static const TCHAR c[] = _T("%d");
 #endif
@@ -750,7 +750,7 @@ TCHAR * NSISCALL GetNSISString(TCHAR *outbuf, int strtab)
 
   // Still working within ps_tmpbuf, so set out to the
   // current position that is passed in.
-  if (outbuf >= ps_tmpbuf && 
+  if (outbuf >= ps_tmpbuf &&
      (size_t) (outbuf - ps_tmpbuf) < COUNTOF(ps_tmpbuf))
   {
     out = outbuf;
@@ -850,7 +850,7 @@ TCHAR * NSISCALL GetNSISString(TCHAR *outbuf, int strtab)
               break;
             }
           }
-            
+
           if (!SHGetSpecialFolderLocation(g_hwnd, fldrs[x], &idl))
           {
             BOOL res = SHGetPathFromIDList(idl, out);
@@ -1131,11 +1131,11 @@ struct MGA_FUNC MGA_FUNCS[] = {
 HMODULE NSISCALL LoadSystemLibrary(LPCSTR name)
 {
   LPCTSTR fmt = sizeof(*fmt) > 1 ? TEXT("%s%S.dll") : TEXT("%s%s.dll"); // The module name is always ANSI
-  BYTE bytebuf[(MAX_PATH+1+20+1+3+!0) * sizeof(*fmt)]; // 20+4 is more than enough for 
+  BYTE bytebuf[(MAX_PATH+1+20+1+3+!0) * sizeof(*fmt)]; // 20+4 is more than enough for
   LPTSTR path = (LPTSTR) bytebuf;                      // the dllnames we are using.
 
   UINT cch = GetSystemDirectory(path, MAX_PATH);
-  if (cch > MAX_PATH) // MAX_PATH was somehow not large enough and we don't support 
+  if (cch > MAX_PATH) // MAX_PATH was somehow not large enough and we don't support
     cch = 0;          // \\?\ paths so we have to settle for just the name.
   wsprintf(path + cch, fmt, TEXT("\\") + (!cch || path[cch-1] == '\\'), name);
 
@@ -1155,8 +1155,8 @@ void* NSISCALL myGetProcAddress(const enum myGetProcAddressFunctions func)
   const char *dllname = MGA_FUNCS[func].dll;
   HMODULE hModule;
 
-  hModule = GetModuleHandleA(dllname);    // Avoid LoadLibrary if possible because 
-  if (!hModule)                           // it can crash on 64-bit dlls if 
+  hModule = GetModuleHandleA(dllname);    // Avoid LoadLibrary if possible because
+  if (!hModule)                           // it can crash on 64-bit dlls if
     hModule = LoadSystemLibrary(dllname); // WoW64 FS redirection is off.
 
   return hModule

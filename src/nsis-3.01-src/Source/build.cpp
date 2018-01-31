@@ -1,15 +1,15 @@
 /*
  * build.cpp
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 1999-2016 Nullsoft and Contributors
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -1144,12 +1144,12 @@ int CEXEBuild::add_function(const TCHAR *funname)
   build_cursection->flags=0;
   build_cursection->size_kb=0;
   memset(build_cursection->name,0,sizeof(build_cursection->name));
-  
+
   if (uninstall_mode)
     set_code_type_predefines(funname+3);
   else
     set_code_type_predefines(funname);
-  
+
   return PS_OK;
 }
 
@@ -1167,7 +1167,7 @@ int CEXEBuild::function_end()
   build_cursection=NULL;
 
   set_uninstall_mode(0);
-  
+
   set_code_type_predefines();
   return PS_OK;
 }
@@ -1222,7 +1222,7 @@ int CEXEBuild::section_end()
   build_cursection=NULL;
   if (!sectiongroup_open_cnt)
     set_uninstall_mode(0);
-  
+
   set_code_type_predefines();
   return PS_OK;
 }
@@ -1266,7 +1266,7 @@ int CEXEBuild::add_section(const TCHAR *secname, const TCHAR *defname, int expan
   int hidden = (name[0] == _T('-'));
   if (hidden)
     name++;
-  
+
   if (name[0] == _T('!'))
   {
     name++;
@@ -1347,9 +1347,9 @@ int CEXEBuild::add_section(const TCHAR *secname, const TCHAR *defname, int expan
     else
       sectiongroup_open_cnt++;
   }
-  
+
   set_code_type_predefines(name);
-    
+
   return PS_OK;
 }
 
@@ -1782,7 +1782,7 @@ int CEXEBuild::add_page(int type)
 
   cur_page = (page *)cur_pages->get() + cur_header->blocks[NB_PAGES].num++;
   cur_page_type = type;
-  
+
   set_code_type_predefines(ids[type].name);
   return PS_OK;
 }
@@ -1829,7 +1829,7 @@ int CEXEBuild::AddVersionInfo()
 
           const TCHAR *lang_name = GetLangNameAndCPForVersionResource(lang_id, NULL, false);
 
-          const TCHAR *recverkeys = 
+          const TCHAR *recverkeys =
             _T("FileVersion\0")
             _T("FileDescription\0")
             _T("LegalCopyright\0");

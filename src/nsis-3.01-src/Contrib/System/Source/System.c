@@ -19,7 +19,7 @@
 
 
 
-// Parse Section Type 
+// Parse Section Type
 #define PST_PROC    0
 #define PST_PARAMS  1
 #define PST_RETURN  2
@@ -133,7 +133,7 @@ PLUGINFUNCTION(Debug)
             TCHAR buffer[1024], buftime[1024], bufdate[1024];
 
             // Init debugging
-            logfile = CreateFile(o1, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, 
+            logfile = CreateFile(o1, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                 OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
             SetFilePointer(logfile, 0, 0, FILE_END);
@@ -215,9 +215,9 @@ PLUGINFUNCTIONSHORT(Free)
     if (g_CallbackThunkListHead)
     {
         CallbackThunk *pCb=g_CallbackThunkListHead,*pPrev=NULL;
-        do 
+        do
         {
-            if (GetAssociatedSysProcFromCallbackThunkPtr(pCb) == (SystemProc*)memtofree) 
+            if (GetAssociatedSysProcFromCallbackThunkPtr(pCb) == (SystemProc*)memtofree)
             {
                 if (pPrev)
                     pPrev->pNext=pCb->pNext;
@@ -307,7 +307,7 @@ PLUGINFUNCTION(Call)
         switch (proc->ProcType)
         {
         case PT_NOTHING:
-            if (proc->ProcResult == PR_CALLBACK) 
+            if (proc->ProcResult == PR_CALLBACK)
                 proc = CallBack(proc);
             break;
         case PT_PROC:
@@ -352,7 +352,7 @@ PLUGINFUNCTION(Call)
 
         // In case of POPT_ERROR - first pop will be proc error
         if ((proc->Options & POPT_ERROR) != 0) system_pushint(LastError);
-    }    
+    }
 
     // If proc is permanent?
     if ((proc->Options & POPT_PERMANENT) == 0) GlobalFree((HGLOBAL) proc); // No, free it
@@ -388,13 +388,13 @@ PLUGINFUNCTIONSHORT(Int64Op)
     case _T('+'): i1 += i2; break;
     case _T('-'): i1 -= i2; break;
     case _T('*'): i1 *= i2; break;
-    case _T('/'): 
-    case _T('%'): 
+    case _T('/'):
+    case _T('%'):
         // It's unclear, but in this case compiler will use DivMod rountine
         // instead of two separate Div and Mod rountines.
         if (i2 == 0) { i3 = 0; i4 = i1; }
         else {i3 = i1 / i2; i4 = i1 % i2; }
-        if (*op == _T('/')) i1 = i3; else i1 = i4; 
+        if (*op == _T('/')) i1 = i3; else i1 = i4;
         break;
     case _T('|'): if (op[1] == _T('|')) i1 = i1 || i2; else i1 |= i2; break;
     case _T('&'): if (op[1] == _T('&')) i1 = i1 && i2; else i1 &= i2; break;
@@ -405,7 +405,7 @@ PLUGINFUNCTIONSHORT(Int64Op)
     case _T('>'): if (op[1] == _T('>')) i1 = i1 >> i2; else i1 = i1 > i2; break;
     case _T('='): i1 = (i1 == i2); break;
     }
-    
+
     // Output and freedom
 #ifdef _WIN64
     system_pushintptr(i1);
@@ -469,10 +469,10 @@ SystemProc *PrepareProc(BOOL NeedForCall)
           else
             changed = FALSE;
           break;
-        case _T('('): 
-            SectionType = PST_PARAMS; 
+        case _T('('):
+            SectionType = PST_PARAMS;
             // fake-real parameter: for COM interfaces first param is Interface Pointer
-            ParamIndex = ((ProcType == PT_VTABLEPROC)?(2):(1)); 
+            ParamIndex = ((ProcType == PT_VTABLEPROC)?(2):(1));
             temp3 = temp = 0;
             param_defined = FALSE;
             break;
@@ -503,7 +503,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                 proc->Proc = NULL;
                 proc->ProcType = ProcType;
                 proc->ProcResult = PR_OK;
-    
+
                 // Section changed and previos section was Proc
                 switch (ProcType)
                 {
@@ -515,7 +515,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                         SystemProc *pr = NULL;
 
                         if (proc != NULL) GlobalFree(proc);
-                        // Get already defined proc                                      
+                        // Get already defined proc
                         proc = (SystemProc *) StrToIntPtr(cbuf);
                         if (!proc) break;
 
@@ -571,7 +571,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                 // Is it '::'
                 if ((*(ib) == _T('-')) && (*(ib+1) == _T('>')))
                 {
-                    ProcType = PT_VTABLEPROC;    
+                    ProcType = PT_VTABLEPROC;
                 } else
                 {
                     if ((*(ib+1) != _T(':')) || (*(ib) == _T('-'))) break;
@@ -584,7 +584,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                     *cb = 0;
                     lstrcpy(sbuf, cbuf);
                 } else  *sbuf = 0; // No dll - system proc
-                
+
                 // Ok
                 ChangesDone = PCD_DONE;
                 break;
@@ -661,7 +661,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
 
             case _T('R'):
                 temp4 = ((INT_PTR) GetIntFromString(&ib))+1;
-                if (temp4 < 11) temp4 += 10; 
+                if (temp4 < 11) temp4 += 10;
                 break;
             case _T('r'): temp4 = ((INT_PTR) GetIntFromString(&ib))+1; break; // Register
 
@@ -689,7 +689,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                         *(cb++) = *(ib);
                     }
                     // finish and save
-                    *cb = 0; 
+                    *cb = 0;
                     temp4 = (INT_PTR) AllocStr(cbuf);
                 }
                 break;
@@ -723,7 +723,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                 proc->Params[ParamIndex].Input = IOT_NONE;
                 proc->Params[ParamIndex].Output = IOT_NONE;
             }
-          
+
             // Param source/dest changed?
             if (temp4 != 0)
             {
@@ -812,7 +812,7 @@ SystemProc *PrepareProc(BOOL NeedForCall)
                 INT_PTR addr;
 
                 proc->Dll = (HMODULE) StrToIntPtr(proc->DllName);
-  
+
                 if (proc->Dll == 0)
                 {
                     proc->ProcResult = PR_ERROR;
@@ -909,12 +909,12 @@ void ParamsIn(SystemProc *proc)
     {
         ProcParameter *par = &proc->Params[i];
         // Step 1: retrive value
-        if ((par->Input == IOT_NONE) || (par->Input == IOT_INLINE)) 
+        if ((par->Input == IOT_NONE) || (par->Input == IOT_INLINE))
             realbuf = AllocStr(_T(""));
         else if (par->Input == IOT_STACK) realbuf = system_popstring();
-        else if ((par->Input > 0) && (par->Input <= __INST_LAST)) 
+        else if ((par->Input > 0) && (par->Input <= __INST_LAST))
             realbuf = system_getuservariable((int)par->Input - 1);
-        else 
+        else
         {
             // Inline input, will be freed as realbuf
             realbuf = (TCHAR*) par->Input;
@@ -941,7 +941,7 @@ void ParamsIn(SystemProc *proc)
             *(__int64*)place = myatoi64(realbuf);
             break;
         case PAT_TSTRING:
-/*            if (par->Input == IOT_NONE) 
+/*            if (par->Input == IOT_NONE)
                 *((int*) place) = (int) NULL;
             else*/
             *place = par->allocatedBlock = AllocStr(realbuf);
@@ -992,7 +992,7 @@ void ParamsIn(SystemProc *proc)
 #ifndef _WIN64
             hi32 = par->_value;
 #endif
-            wsprintf(buf, _T("\t\t\tParam In %d:\tType=%d Value=")SYSFMT_HEXPTR _T(" hi32=0x%08X"), i, 
+            wsprintf(buf, _T("\t\t\tParam In %d:\tType=%d Value=")SYSFMT_HEXPTR _T(" hi32=0x%08X"), i,
                 par->Type, par->Value, hi32);
             SYSTEM_LOG_ADD(buf);
             SYSTEM_LOG_POST;
@@ -1028,7 +1028,7 @@ void ParamsOut(SystemProc *proc)
         // Retreive pointer to place
         if (proc->Params[i].Option == -1)
             place = (INT_PTR*) proc->Params[i].Value;
-        else 
+        else
             place = (INT_PTR*) &(proc->Params[i].Value);
 
         // Step 1: retrive value
@@ -1116,7 +1116,7 @@ void ParamsOut(SystemProc *proc)
 #endif
 
         i--;
-    } 
+    }
     while (i >= 0);
 
     GlobalFree(realbuf);
@@ -1166,7 +1166,7 @@ void CallStruct(SystemProc *proc)
 
     SYSTEM_LOG_ADD(_T("\t\tStruct..."));
 
-    // Calculate the structure size 
+    // Calculate the structure size
     for (i = 1; i <= proc->ParamCount; i++)
     {
         // Emulate g as &g16
@@ -1181,12 +1181,12 @@ void CallStruct(SystemProc *proc)
         else
             structsize += ByteSizeByType[proc->Params[i].Type] * (proc->Params[i].Option - 1);
     }
-    
+
     // Struct exists?
     if (proc->Proc == NULL)
         // No. Allocate struct memory
         proc->Proc = (HANDLE) GlobalAlloc(GPTR, structsize);
-    else  // In case of zero size defined structure use mapped size 
+    else  // In case of zero size defined structure use mapped size
         if (structsize == 0) structsize = (int) GlobalSize((HGLOBAL) proc->Proc);
 
     #ifdef SYSTEM_LOG_DEBUG
@@ -1221,23 +1221,23 @@ void CallStruct(SystemProc *proc)
             switch (proc->Params[i].Type)
             {
             case PAT_VOID: break;
-            case PAT_LONG: 
+            case PAT_LONG:
                 // real structure size
                 proc->Params[i].Value = structsize;
 #ifndef _WIN64
                 proc->Params[i]._value = 0;
 #endif
                 ssflag = TRUE; // System::Call '*(...,&l.r0)'
-            case PAT_INT: 
+            case PAT_INT:
                 // clear unused value bits
                 proc->Params[i].Value &= intmask[((size >= 0) && (size < 4))?(size):(0)];
                 // pointer
-                ptr = (char*) &(proc->Params[i].Value); 
+                ptr = (char*) &(proc->Params[i].Value);
                 break;
 
-            case PAT_STRING: 
-            case PAT_GUID: 
-            case PAT_WSTRING: 
+            case PAT_STRING:
+            case PAT_GUID:
+            case PAT_WSTRING:
                 // Jim Park: Pointer for memcopy, so keep as char*
                 ptr = (char*) proc->Params[i].Value; break;
             }
@@ -1267,12 +1267,12 @@ void CallStruct(SystemProc *proc)
 
 /*
 Use of system _DllMainCRTStartup to avoid endless recursion for the debug
-report macro _RPT0. 
+report macro _RPT0.
 
-The system _DllMainCRTStartup initializes the C runtime environment. 
-In particular the value for _osplatform is initialized. In the function 
-_get_winmajor called in the execution of the _RPT0 macro an assertion 
-failure is raised if _osplatform is not set. The assertion is reported by 
+The system _DllMainCRTStartup initializes the C runtime environment.
+In particular the value for _osplatform is initialized. In the function
+_get_winmajor called in the execution of the _RPT0 macro an assertion
+failure is raised if _osplatform is not set. The assertion is reported by
 the same means as used for the _RPT0 macro. This leads to an endless recursion.
 */
 

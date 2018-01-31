@@ -1,4 +1,4 @@
-/* 
+/*
   Copyright (c) 2002 Robert Rainwater
   Contributors: Justin Frankel, Fritz Elfert, Amir Szekely and
                 Jim Park (Unicode Support)

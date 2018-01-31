@@ -50,7 +50,7 @@ NSIS_ENTRYPOINT_SIMPLEGUI
 int WINAPI _tWinMain(HINSTANCE hInst,HINSTANCE hOldInst,LPTSTR CmdLineParams,int ShowCmd) {
 
   HMODULE hK32 = LoadLibraryA("KERNEL32");
-  // We can be associated with .nsi files and when launched from the shell we inherit the current directory so 
+  // We can be associated with .nsi files and when launched from the shell we inherit the current directory so
   // we need to prevent LoadLibrary from searching the current directory because it can contain untrusted DLLs!
   FARPROC SDDA = GetProcAddress(hK32, "SetDllDirectoryA"); // WinXP.SP1+
   if (SDDA) ((BOOL(WINAPI*)(LPCSTR))SDDA)(""); // Remove the current directory from the default DLL search order
@@ -747,7 +747,7 @@ DWORD WINAPI MakeNSISProc(LPVOID TreadParam) {
 
   STARTUPINFO si;
   HANDLE newstdout,read_stdout;
-  
+
   if (!InitSpawn(si, read_stdout, newstdout)) {
     ErrorMessage(g_sdata.hwnd, _T("There was an error creating the pipe."));
     PostMessage(g_sdata.hwnd, WM_MAKENSIS_PROCESSCOMPLETE, 0, 0);
@@ -791,7 +791,7 @@ logappendfinal:
     {
       if (cbofs) // Unable to complete the surrogate pair or odd byte
       {
-        p[0] = 0xfffd, cch = 1, cbofs = 0; 
+        p[0] = 0xfffd, cch = 1, cbofs = 0;
         goto logappendfinal;
       }
       break;
@@ -1263,4 +1263,3 @@ void SetCompressor(NCOMPRESSOR compressor)
     ResetObjects();
   }
 }
-

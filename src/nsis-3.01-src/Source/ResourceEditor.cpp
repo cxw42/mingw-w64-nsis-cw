@@ -1,15 +1,15 @@
 /*
  * ResourceEditor.cpp
- * 
+ *
  * This file is a part of NSIS.
- * 
+ *
  * Copyright (C) 2002-2016 Amir Szekely <kichik@users.sourceforge.net>
- * 
+ *
  * Licensed under the zlib/libpng license (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  * Licence details can be found in the file COPYING.
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty.
  *
@@ -68,7 +68,7 @@ PRESOURCE_DIRECTORY CResourceEditor::GetResourceDirectory(
 ) {
   PIMAGE_DATA_DIRECTORY dataDirectory = *GetMemberFromPEOptHdr(ntHeaders->OptionalHeader, DataDirectory);
   DWORD dwNumberOfRvaAndSizes = *GetMemberFromPEOptHdr(ntHeaders->OptionalHeader, NumberOfRvaAndSizes);
-  
+
   if (ConvertEndianness(dwNumberOfRvaAndSizes) <= IMAGE_DIRECTORY_ENTRY_RESOURCE)
     throw runtime_error("No resource section found");
   // Get resource section virtual address
@@ -174,7 +174,7 @@ bool CResourceEditor::UpdateResourceW(const WINWCHAR* szType, WINWCHAR* szName, 
       }
     }
   }
-  
+
   if (lpData) {
     // Replace/Add the resource
     if (data) {
@@ -248,7 +248,7 @@ bool CResourceEditor::UpdateResourceT(const TCHAR* szType, WORD szName, LANGID w
 #if defined(_WIN32) && defined(_UNICODE)
   return UpdateResourceW((WINWCHAR*)szType, MAKEINTRESOURCEWINW(szName), wLanguage, lpData, dwSize);
 #else
-  WINWCHAR* szwType = ResStringToUnicode(szType); 
+  WINWCHAR* szwType = ResStringToUnicode(szType);
   bool result = UpdateResourceW(szwType, MAKEINTRESOURCEWINW(szName), wLanguage, lpData, dwSize);
   FreeUnicodeResString(szwType);
   return result;
@@ -690,7 +690,7 @@ void CResourceEditor::WriteRsrcSec(BYTE* pbRsrcSec) {
   }
 
   /*
-   * Write IMAGE_RESOURCE_DATA_ENTRYs.  
+   * Write IMAGE_RESOURCE_DATA_ENTRYs.
    */
   while (!qDataEntries.empty()) {
     CResourceDataEntry* cRDataE = qDataEntries.front();
