@@ -1,3 +1,7 @@
+# Output dirs
+/src/build-i686-nsis-3.01
+/pkg
+
 # Prerequisites
 *.d
 
