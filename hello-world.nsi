@@ -3,8 +3,13 @@
 # https://stackoverflow.com/a/45467958/2877364
 RequestExecutionLevel user
 
+# Don't pause when the installation is complete
+AutoCloseWindow true
+
 # set the name of the installer
 Outfile "hello-world.exe"
+
+Name "HelloWorld"
  
 # create a default section.
 Section
