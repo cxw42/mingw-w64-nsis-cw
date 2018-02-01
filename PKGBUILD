@@ -63,6 +63,7 @@ _build() {
         APPEND__LIBFLAGS="-lgdi32 -luser32 -lpthread -liconv -lshlwapi -lversion -lz" \
         AS=gcc \
         APPEND_ASFLAGS="-x assembler-with-cpp -c" \
+        APPEND_CCFLAGS="-pthread -g -fexceptions" \
         TARGET_ARCH="${target_arch}" \
         PREFIX="${MINGW_PREFIX}" \
         VERSION="${pkgver}" \
@@ -87,3 +88,4 @@ package() {
     install -Dm644 "${pkgdir}${MINGW_PREFIX}/share/doc/nsis/COPYING" "${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/COPYING"
     rm "${pkgdir}${MINGW_PREFIX}/share/doc/nsis/COPYING"
 }
+# vi: set ts=4 sts=4 sw=4 et ai ft=sh: #
